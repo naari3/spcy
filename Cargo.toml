@@ -8,6 +8,8 @@ edition = "2018"
 
 [dependencies]
 infer = "0.3"
+log = { version = "0.4.8", features = ["std"] }
+env_logger = "0.8"
 dotenv = "0.15.0"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 id666 = { git = "https://github.com/naari3/id666-rs-bind", rev = "dd97120" }

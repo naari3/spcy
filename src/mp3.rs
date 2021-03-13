@@ -27,12 +27,8 @@ pub fn samples_to_mp3(samples: &mut [i16]) -> Result<Vec<u8>> {
             pcm_right.push(sample);
         }
     }
-    println!("pcm left: {}", pcm_left.len());
-    println!("pcm right: {}", pcm_right.len());
 
-    println!("start encode");
     let size = lame.encode(&mut pcm_left, &mut pcm_right, &mut buf)?;
-    println!("end encode: {}", size);
 
     let buf = &buf[..size];
     Ok(buf.to_owned())
