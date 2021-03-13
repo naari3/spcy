@@ -11,6 +11,11 @@ jobs:
       matrix:
         target: [x86_64-pc-windows-gnu, x86_64-unknown-linux-musl]
     steps:
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "10.0"
+          directory: ${{ runner.temp }}/llvm
       - uses: actions/checkout@master
       - name: Compile and release
         uses: Douile/rust-build.action@v0.1.26
