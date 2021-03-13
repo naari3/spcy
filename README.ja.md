@@ -2,6 +2,10 @@
 
 spcをmp3に変換するDiscord用bot
 
+[here is English README](/README.md)
+
+GitHub Releases でビルド済みのバイナリを配布しています。 https://github.com/naari3/spcy/releases
+
 # 使い方
 
 ## Discord botを作成、トークンを取得、サーバーに招待
