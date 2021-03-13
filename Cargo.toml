@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 infer = "0.3"
+dotenv = "0.15.0"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 id666 = { git = "https://github.com/naari3/id666-rs-bind", rev = "dd97120" }
 snes_spc = { git = "https://github.com/naari3/snes_spc-rs-bind", rev = "16c9b61" }

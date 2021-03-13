@@ -1,3 +1,4 @@
+use dotenv::dotenv;
 use std::env;
 
 mod mp3;
@@ -59,6 +60,8 @@ impl EventHandler for Handler {
 
 #[tokio::main]
 async fn main() {
+    dotenv().ok();
+
     let token = env::var("DISCORD_TOKEN").expect("Expected a token in the environment");
 
     let mut client = Client::builder(&token)
