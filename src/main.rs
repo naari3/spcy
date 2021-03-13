@@ -27,7 +27,7 @@ impl EventHandler for Handler {
                     return;
                 }
             };
-            let filename: &str = &format!("{}.mp3", attachment.filename);
+            let filename: &str = &format!("{}.mp3", &attachment.filename.replace(".spc", ""));
             let mut samples = match spc::spc_to_samples(&mut content) {
                 Ok(data) => data,
                 Err(why) => {
