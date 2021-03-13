@@ -16,6 +16,9 @@ struct Handler;
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
         for attachment in msg.attachments {
+            if !attachment.filename.contains(".spc") {
+                continue;
+            }
             let mut content = match attachment.download().await {
                 Ok(content) => content,
                 Err(why) => {
@@ -24,7 +27,7 @@ impl EventHandler for Handler {
                         .channel_id
                         .say(&ctx, "Error downloading attachment")
                         .await;
-                    return;
+                    continue;
                 }
             };
             let filename: &str = &format!("{}.mp3", &attachment.filename.replace(".spc", ""));
@@ -32,9 +35,8 @@ impl EventHandler for Handler {
                 Ok(data) => data,
                 Err(why) => {
                     println!("Error converting spc to samples: {:?}", why);
-                    // let _ = msg.channel_id.say(&ctx, "Error converting spc to samples").await;
                     // maybe just not spc
-                    return;
+                    continue;
                 }
             };
             println!("sample length: {}", samples.len());
@@ -42,9 +44,8 @@ impl EventHandler for Handler {
                 Ok(data) => data,
                 Err(why) => {
                     println!("Error converting samples to mp3: {:?}", why);
-                    // let _ = msg.channel_id.say(&ctx, "Error converting samples to mp3").await;
                     // maybe just not spc
-                    return;
+                    continue;
                 }
             };
             println!("mp3data: {}", &mp3data.len());
