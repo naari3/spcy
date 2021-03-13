@@ -10,12 +10,12 @@ jobs:
       matrix:
         target:
           - x86_64-unknown-linux-gnu
-          # - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-gnu
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-          # - target: x86_64-pc-windows-gnu
-          #   os: windows-latest
+          - target: x86_64-pc-windows-gnu
+            os: ubuntu-latest
 
     runs-on: ${{ matrix.os }}
 
@@ -34,6 +34,12 @@ jobs:
           version: "10.0"
           directory: ${{ runner.temp }}/llvm
           cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+
+      - name: Install mingw-w64
+        run: sudo apt install mingw-w64
+
+      - name: rustup target add x86_64-pc-windows-gnu
+        run: rustup target add x86_64-pc-windows-gnu
 
       # https://github.com/actions/cache/blob/master/examples.md#rust---cargo
       - name: Cache cargo registry
@@ -93,7 +99,7 @@ jobs:
       matrix:
         target:
           - x86_64-unknown-linux-gnu
-          # - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-gnu
     needs: [create-release]
     runs-on: ubuntu-latest
     steps:
