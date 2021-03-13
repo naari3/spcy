@@ -8,6 +8,7 @@ pub struct Spc {
     inner_filter: SpcFilter,
     total_frames: u32,
     remain_frames: u32,
+    fade_frames: u32,
 }
 
 unsafe impl Send for Spc {}
@@ -21,11 +22,13 @@ impl Spc {
                 panic!("Maybe corrupt result")
             }
         };
+        let fade_frames = id6.fade.unwrap_or(0);
         Ok(Self {
             innser_spc: SNESSpc::from(data)?,
             inner_filter: SpcFilter::new(),
             total_frames: total_len,
             remain_frames: total_len,
+            fade_frames: fade_frames,
         })
     }
 
@@ -42,6 +45,7 @@ impl Spc {
             let stereo_count = (fc * 2) as i32;
             self.innser_spc.play(stereo_count, &mut buf)?;
             self.inner_filter.run(&mut buf, stereo_count);
+            fade_frames(&mut buf, self.remain_frames, self.fade_frames, fc);
 
             result.append(&mut buf.to_vec());
 
@@ -49,6 +53,28 @@ impl Spc {
         }
 
         Ok(result)
+    }
+}
+
+fn fade_frames(io: &mut [i16], remain_frames: u32, fade_frames: u32, count: u32) {
+    let mut i = 0;
+    let mut f = fade_frames;
+
+    if remain_frames - count > fade_frames {
+        return;
+    }
+    if remain_frames > fade_frames {
+        i = remain_frames - fade_frames;
+        f += i;
+    } else {
+        f = remain_frames;
+    }
+
+    while i < count {
+        let fade = (f - i) as f64 / fade_frames as f64;
+        io[((i * 2) + 0) as usize] = (fade * (io[((i * 2) + 0) as usize] as f64)) as i16;
+        io[((i * 2) + 1) as usize] = (fade * (io[((i * 2) + 1) as usize] as f64)) as i16;
+        i += 1;
     }
 }
 
