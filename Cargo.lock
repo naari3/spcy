@@ -506,9 +506,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "id666-rs"
+name = "id666"
 version = "0.1.0"
-source = "git+https://github.com/naari3/id666-rs-bind?rev=49778b1#49778b19b0f5ff00c25819f22a1c5775c5fa04e2"
+source = "git+https://github.com/naari3/id666-rs-bind?rev=dd97120#dd97120c8a2ca5e7e601fafbe644493b46f4ccf6"
 dependencies = [
  "id666-sys",
 ]
@@ -516,7 +516,7 @@ dependencies = [
 [[package]]
 name = "id666-sys"
 version = "0.1.0"
-source = "git+https://github.com/naari3/id666-rs-bind?rev=49778b1#49778b19b0f5ff00c25819f22a1c5775c5fa04e2"
+source = "git+https://github.com/naari3/id666-rs-bind?rev=dd97120#dd97120c8a2ca5e7e601fafbe644493b46f4ccf6"
 dependencies = [
  "bindgen",
  "cc",
@@ -591,7 +591,7 @@ dependencies = [
 [[package]]
 name = "lame"
 version = "0.1.3"
-source = "git+https://github.com/naari3/lame-rs?rev=5568a2f#5568a2fcb69768976db335c471e55bad9941076b"
+source = "git+https://github.com/naari3/lame-rs?rev=da260d5#da260d5a70c3dec79d7b9154eefb883671fb6ed1"
 dependencies = [
  "lame-sys",
 ]
@@ -1113,7 +1113,7 @@ name = "spcy"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "id666-rs",
+ "id666",
  "infer",
  "lame",
  "serenity",

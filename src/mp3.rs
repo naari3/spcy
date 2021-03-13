@@ -1,8 +1,15 @@
+use core::panic;
+
 use anyhow::Result;
 use lame;
 
 pub fn samples_to_mp3(samples: &mut [i16]) -> Result<Vec<u8>> {
-    let mut lame = lame::Lame::new().unwrap();
+    let mut lame = match lame::Lame::new() {
+        Some(lame) => lame,
+        None => {
+            panic!("Failed to initialize lame instance");
+        }
+    };
     lame.set_sample_rate(32000)?;
     lame.set_channels(2)?;
     lame.set_kilobitrate(256)?;

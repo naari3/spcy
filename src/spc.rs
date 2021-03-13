@@ -1,4 +1,4 @@
-use id666_rs::ID666;
+use id666::ID666;
 use snes_spc::{SNESSpc, SpcFilter};
 
 use anyhow::Result;
@@ -14,12 +14,18 @@ unsafe impl Send for Spc {}
 
 impl Spc {
     pub fn from(data: &mut [u8]) -> Result<Self> {
-        let id6 = ID666::from(data).unwrap();
+        let id6 = ID666::from(data)?;
+        let total_len = match id6.total_len {
+            Some(i) => i,
+            None => {
+                panic!("Maybe corrupt result")
+            }
+        };
         Ok(Self {
             innser_spc: SNESSpc::from(data)?,
             inner_filter: SpcFilter::new(),
-            total_frames: id6.total_len.unwrap(),
-            remain_frames: id6.total_len.unwrap(),
+            total_frames: total_len,
+            remain_frames: total_len,
         })
     }
 
