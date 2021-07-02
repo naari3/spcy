@@ -1,6 +1,6 @@
 [package]
 name = "spcy"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["naari3 <naari.named@gmail.com>"]
 edition = "2018"
 
