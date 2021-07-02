@@ -12,7 +12,7 @@ pub fn samples_to_mp3(samples: &mut [i16]) -> Result<Vec<u8>> {
     };
     lame.set_sample_rate(32000)?;
     lame.set_channels(2)?;
-    lame.set_kilobitrate(128)?;
+    lame.set_kilobitrate(92)?;
     lame.init_params()?;
 
     let mut buf = vec![0u8; samples.len() * 4];
