@@ -17,7 +17,7 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: Message) {
-        for attachment in msg.attachments {
+        for attachment in &msg.attachments {
             if !attachment.filename.contains(".spc") {
                 continue;
             }
@@ -57,7 +57,20 @@ impl EventHandler for Handler {
             debug!("Finished mp3 encoding");
             debug!("mp3data: {}", &mp3data.len());
             let files = vec![(&mp3data[..], filename)];
-            let _ = msg.channel_id.send_files(&ctx, files, |m| m).await;
+            match msg.channel_id.send_files(&ctx, files, |m| m).await {
+                Ok(_) => {}
+                Err(why) => {
+                    error!("Error sending mp3 to Discord: {}", &why);
+                    let discord_msg = format!("Error: {}", &why);
+                    match msg.reply(&ctx, discord_msg).await {
+                        Ok(_) => {}
+                        Err(why) => {
+                            error!("Error sending mp3 error message: {}", why)
+                        }
+                    };
+                    continue;
+                }
+            };
             info!("Finish: {}", attachment.filename);
         }
     }
